@@ -35,6 +35,14 @@ Below is the description of acronyms and definitions which are useful for furthe
       Electronic process confirming the identity of a person or the origin/integrity of data.
       Aligned with ARF 2.7.3.
 
+    **Identity Matching**
+      Process by which a Relying Party establishes that the person identification attributes presented in a transaction refer to the same natural person. See :ref:`identity-matching`.
+      Not present in ARF 2.7.3; specific to IT-Wallet.
+
+    **Identity Reconciliation**
+      Process by which a Relying Party, after successful identity matching, links that natural person to a previous User session or stored User record. See :ref:`identity-matching`.
+      Not present in ARF 2.7.3; specific to IT-Wallet.
+
     **Authentic Source**
       Public or private entity responsible for a repository/system considered a primary source for Attributes or PID.
       Aligned with ARF 2.7.3.
@@ -116,7 +124,7 @@ Below is the description of acronyms and definitions which are useful for furthe
       Aligned with ARF 2.7.3.
 
     **National Identity Provider**
-      Preexisting identity systems (e.g. CIE) notified to eIDAS.
+      Organizational Entity providing preexisting notified electronic identification means used for User authentication (for example CieID / SPID), as distinct from the wallet-held **IT-Wallet ID** credential.
       Not present in ARF 2.7.3.
 
     **National Trust Anchor**
@@ -131,12 +139,14 @@ Below is the description of acronyms and definitions which are useful for furthe
       Legal person (organization or public entity) recognized to operate a role in the IT-Wallet ecosystem.
       Not present in ARF 2.7.3; specific to IT-Wallet.
 
-    **Personal Identification Data**
-      A set of data which allow to establish the identity of a natural or legal person, or of a natural person representing another natural or legal person, to be established.
-      Aligned with ARF 2.7.3.
+    **Person Identification Data**
+    **PID**
+      A set of data that is issued in accordance with Union or national law and that enables the establishment of the identity of a natural or legal person, or of a natural person representing another natural person or a legal person.
+      Aligned with ARF 2.7.3 / `EU_2024_1183`_. In these Technical Specifications, references to issuance, presentation, or revocation of a PID denote the technical PID (the signed data structure containing Person Identification Data) as used in the ARF.
 
     **PID Provider**
-      Credential Issuer responsible for issuing/revoking PID, ensuring cryptographic binding to Wallet Unit.
+    **Provider of Person Identification Data**
+      Natural or legal person responsible for issuing and revoking the Person Identification Data and ensuring that the Person Identification Data of a User is cryptographically bound to a Wallet Unit.
       Aligned with ARF 2.7.3.
 
     **Policy Language**
@@ -168,10 +178,6 @@ Below is the description of acronyms and definitions which are useful for furthe
     **Credential of Public Interest**
       Electronic Attestation of Attributes that contains Attributes intended to certify the release, by the State or other public administrations, of authorizations, certifications, qualifications, identity and recognition documents, receipts of revenue, or to assume a fiduciary value and protection of public faith afterwards their issuance or the entries made on them and, in general, when they are considered security documents pursuant to Article 2, paragraph 10-bis, Law 13 July 1966, no. 559.
       Not present in ARF 2.7.3; specific to IT-Wallet.
-
-    **Person Identification Data**
-      Electronic Attestation that allows the subject to whom the Personal Identification Data refers to be authenticated.
-      Aligned with ARF 2.7.3.
 
     **Qualified Electronic Attestation of Attributes Provider**
       Organizational Entity providing QEAAs.
@@ -338,8 +344,13 @@ Below is the description of acronyms and definitions which are useful for furthe
       Aligned with ARF 2.7.3.
 
     **Wallet Secure Cryptographic Device**
-      Tamper-resistant device providing an environment for the WSCA to protect critical assets.
-      Aligned with ARF 2.7.3.
+      Tamper-resistant device providing an environment for the WSCA to protect critical assets. In this specification the term **WSCD** is reserved for a cryptographic device certifiable as resistant to attackers with high attack potential (for example an HSM or a smart card certified at least Common Criteria EAL4+ AVA_VAN.5).
+      Aligned with ARF; the High-certifiable restriction is specific to this implementation profile.
+
+    **Keystore**
+    **Local Internal hardware-backed Keystore**
+      Hardware-backed key storage native to the User's device, such as the Trusted Execution Environment (TEE) and StrongBox on Android or the Secure Enclave on iOS. A Keystore is **not** a WSCD in the High-certifiable sense. The current implementation profile stores User keys of the Wallet Instance, of the IT-Wallet ID and of (Q)EAA in a Keystore.
+      Not used as a defined term in ARF 2.7.3 with this restriction; specific to this implementation profile.
 
     **Wallet Solution**
       Set of Technical Solutions for the proper functioning of Wallet Instances.
@@ -350,13 +361,17 @@ Below is the description of acronyms and definitions which are useful for furthe
       Aligned with ARF 2.7.3.
 
     **Key Attestation**
-      Data object issued by a Wallet Provider that proves the keys used for key binding of Credentials reside in a trustworthy WSCD using the Key Attestation APIs (OEM).
-      Aligned with Technical Specification 3.
+    **KA**
+      Data object issued by a Wallet Provider that proves the keys used for key binding of Credentials reside in a trustworthy WSCD or Keystore using the Key Attestation APIs (OEM). Private keys bound to a Key Attestation MUST be stored in the same Keystore or WSCD as the Digital Credential keys that the Key Attestation attests.
 
     **Wallet Instance Attestation**
-    **Wallet Attestation**
-      Data object issued by a Wallet Provider proving the integrity of the Wallet Instance.
+    **WIA**
+      Data object issued by a Wallet Provider proving the integrity of the Wallet Instance. This specification uses **Wallet Instance Attestation (WIA)**. The legacy name «Wallet Attestation» MUST NOT be used for this artefact.
       Specific to IT-Wallet.
+
+    **Wallet Unit Attestation**
+    **WUA**
+      Attestations a Wallet Unit uses during issuance of a PID or an attestation. A Wallet Unit Attestation comprises two types: Wallet Instance Attestations (WIAs), which attest the integrity of the Wallet Instance, and Key Attestations (KAs), which attest the security of cryptographic keys stored in the Wallet Unit.
 
     **Digital Credential Catalog**
       Electronic catalog containing information about the formats and schemes of Digital Credentials, the data contained and the Authentic Sources. The Catalog contains additional information that allows for the establishment of the authenticity and reliability of the information contained therein.
@@ -374,6 +389,10 @@ Below is the description of acronyms and definitions which are useful for furthe
     **IT-Wallet Intermediary**
       Organizational Entity that acts as a **Relying Party Intermediary** and is technically implemented as an OpenID Federation Intermediate Entity (`OID-FED`_, Section 1.2). Therefore, in the IT-Wallet implementation profile, a Relying Party Intermediary is also an OpenID Federation Intermediate: it publishes its own Entity Configuration, issues Subordinate Statements for its affiliated Relying Parties, and issues Trust Marks to them. Within the IT-Wallet trust infrastructure, it is registered by the Trust Anchor with a specific ``trust_mark_type``, which enables the Wallet Instance to identify and display to the User that the requesting Relying Party operates through a recognized Intermediary.
       Not present in ARF 2.7.3; specific to IT-Wallet.
+
+    **IT-Wallet ID**
+    **Electronic Attestation of Person Identification Data**
+      An Electronic Attestation of Attributes (EAA) that contains identification data of a natural person and is issued with **national scope** only. The terms **IT-Wallet ID** and **Electronic Attestation of Person Identification Data of national scope** refer to the same national EAA. The qualifier «national scope» distinguishes this EAA from the EUDI **Person Identification Data (PID)**, which is a set of data under the European Digital Identity framework and is **not** an EAA. It enables User authentication and identification towards Relying Parties operating within the national jurisdiction. It MUST NOT be used for cross-border interactions and does **not** constitute a PID under `EU_2024_1183`_ / `EU_2024/2977`_. It MUST NOT be confused with the EUDI **PID**, nor with a **National Identity Provider** / national eID scheme (for example CieID / SPID). The term **National EID** MUST NOT be used as a synonym for IT-Wallet ID, to avoid confusion with those national eID schemes. Technical identifiers (``vct`` and ``credential_type``) are defined in the section :ref:`credential-data-model-it-wallet-id:IT-Wallet ID Data Model`. Not present in ARF 2.7.3; specific to IT-Wallet.
 
 .. note::
    For any term not present in ARF 2.7.3, the IT-Wallet definition is provided as authoritative for the Italian context.
@@ -485,6 +504,12 @@ Below are the main acronyms used in the document:
     - Verifiable Credential
   * - **VP**
     - Verifiable Presentation
+  * - **WIA**
+    - Wallet Instance Attestation
+  * - **WUA**
+    - Wallet Unit Attestation
+  * - **KA**
+    - Key Attestation
   * - **WSCA**
     - Wallet Secure Cryptographic Application
   * - **WSCD**

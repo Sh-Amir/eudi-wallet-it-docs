@@ -395,7 +395,7 @@ Di seguito è riportato un esempio non normativo di Entity Configuration del Tru
         "https://trust-anchor.eid-wallet.example.it/trust_marks/federation-entity/openid_credential_issuer": [
           "https://trust-anchor.eid-wallet.example.it"
         ],
-        "https://trust-anchor.eid-wallet.example.it/trust_marks/federation-entity/wallet_solution": [
+        "https://trust-anchor.eid-wallet.example.it/trust_marks/federation-entity/openid_wallet_provider": [
           "https://trust-anchor.eid-wallet.example.it"
         ]
       }
@@ -455,8 +455,8 @@ In questa sezione sono definiti i principali tipi di metadati mappati sui ruoli 
      - `OID-FED`_
    * - Fornitore di Wallet
      - Fornitore di Wallet
-     - ``federation_entity``, ``wallet_solution``
-     - --
+     - ``federation_entity``, ``openid_wallet_provider``
+     - `OID-FED-WALLET`_
    * - Authorization Server
      -
      - ``federation_entity``, ``oauth_authorization_server``
@@ -499,7 +499,9 @@ I metadati *federation_entity* per le Foglie contiene i seguenti claim.
   * - **organization_name**
     - OBBLIGATORIO. Vedi `OID-FED`_ Sezione 5.2.2
   * - **homepage_uri**
-    - OBBLIGATORIO. Vedi `OID-FED`_ Sezione 5.2.2
+    - OBBLIGATORIO. OBBLIGATORIO se ``organization_uri`` è assente.
+  * - **organization_uri**
+    - CONDIZIONALE. OBBLIGATORIO se ``homepage_uri`` è assente. Vedi `OID-FED`_ Sezione 5.2.2
   * - **policy_uri**
     - OBBLIGATORIO. Vedi `OID-FED`_ Sezione 5.2.2
   * - **logo_uri**
@@ -838,7 +840,7 @@ Il Fornitore di Wallet emette il Wallet Attestation, certificando lo stato opera
 
 Il Wallet Attestation PUÒ contenere la Trust Chain che attesta l'affidabilità per il suo emittente (Fornitore di Wallet) al momento dell'emissione.
 
-L'Istanza del Wallet fornisce il suo Wallet Attestation all'interno della richiesta firmata durante la fase di emissione PID. Il Credential Issuer DEVE valutare la Trust Chain sull'emittente del Wallet Attestation (formalmente, il Fornitore di Wallet).
+L'Istanza del Wallet fornisce il suo Wallet Attestation all'interno della richiesta firmata durante la fase di emissione PID/IT-Wallet ID. Il Credential Issuer DEVE valutare la Trust Chain sull'emittente del Wallet Attestation (formalmente, il Fornitore di Wallet).
 
 Non-ripudio delle Attestazioni di Lunga Durata
 ----------------------------------------------

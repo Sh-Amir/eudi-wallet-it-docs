@@ -34,6 +34,14 @@ Di seguito le descrizioni di acronimi e definizioni, correlati al presente docum
       Processo elettronico che consente di confermare l'Identificazione di una persona fisica o giuridica, oppure l'origine/integrità dei dati.
       Conforme con ARF 2.7.3.
 
+    **Identity Matching**
+      Processo con cui una Relying Party accerta che gli attributi di identificazione personale presentati in una transazione si riferiscano alla stessa persona fisica. Vedere :ref:`identity-matching`.
+      Non presente in ARF 2.7.3; specifico di IT-Wallet.
+
+    **Identity Reconciliation**
+      Processo con cui una Relying Party, dopo un identity matching andato a buon fine, collega quella persona fisica a una precedente sessione Utente o a un record Utente memorizzato. Vedere :ref:`identity-matching`.
+      Non presente in ARF 2.7.3; specifico di IT-Wallet.
+
     **Fonte Autentica**
       Soggetto pubblico o privato responsabile di un archivio o sistema che è considerato fonte primaria per gli Attributi o per i Dati di Identificazione Personale.
       Conforme con ARF 2.7.3.
@@ -116,7 +124,7 @@ Di seguito le descrizioni di acronimi e definizioni, correlati al presente docum
       Conforme con ARF 2.7.3.
 
     **Gestore di Identità Digitale**
-      Sistemi di identità preesistenti (ad esempio CIE) notificati eIDAS.
+      Entità organizzativa che fornisce mezzi di identificazione elettronica preesistenti notificati utilizzati per l'autenticazione dell'Utente (ad esempio CieID / SPID), distinta dall'attestato **IT-Wallet ID** detenuto nel Wallet.
       Non presente in ARF 2.7.3.
 
     **National Trust Anchor**
@@ -132,12 +140,15 @@ Di seguito le descrizioni di acronimi e definizioni, correlati al presente docum
       Non presente in ARF 2.7.3; specifico di IT-Wallet.
 
     **Dati di Identificazione Personale**
-      Insieme di dati che permettono di stabilire l'identità di una persona fisica o giuridica, o di una persona fisica che rappresenta un'altra persona fisica o giuridica.
-      Conforme con ARF 2.7.3.
+    **Person Identification Data**
+    **PID**
+      Insieme di dati rilasciati in conformità al diritto dell'Unione o nazionale che consentono di stabilire l'identità di una persona fisica o giuridica, o di una persona fisica che rappresenta un'altra persona fisica o giuridica.
+      Conforme con ARF 2.7.3 / `EU_2024_1183`_. Nelle presenti Specifiche Tecniche, i riferimenti all'emissione, alla presentazione o alla revoca di un PID denotano il PID tecnico (la struttura dati firmata che contiene i Dati di Identificazione Personale), come utilizzato nell'ARF. Il termine italiano «Attestato Elettronico di Dati di Identificazione Personale», ove impiegato come sinonimo di PID, va inteso in questo senso e **non** come Attestato Elettronico di Attributi (EAA).
 
     **Fornitore di Attestati Elettronici di Dati di Identificazione Personale**
     **PID Provider**
-      Fornitore di Attestato Elettronico responsabile dell'emissione/revoca del PID, che garantisce l'associazione crittografica con la Wallet Unit.
+    **Provider of Person Identification Data**
+      Persona fisica o giuridica responsabile dell'emissione e della revoca dei Dati di Identificazione Personale e della garanzia che i Dati di Identificazione Personale di un Utente siano associati crittograficamente a una Wallet Unit.
       Conforme con ARF 2.7.3.
 
     **Policy Language**
@@ -169,9 +180,9 @@ Di seguito le descrizioni di acronimi e definizioni, correlati al presente docum
       Attestato Elettronico di Attributi che contiene Attributi destinati ad attestare il rilascio, da parte dello Stato o di altre pubbliche amministrazioni, di autorizzazioni, certificazioni, abilitazioni, documenti di identità e riconoscimento, ricevute di introiti, ovvero ad assumere un valore fiduciario e di tutela della fede pubblica in seguito alla loro emissione o alle scritturazioni su di essi effettuate e, in generale, quando sono considerati carte valori ai sensi dell'articolo 2, comma 10-bis, della legge 13 luglio 1966, n. 559.
       Non presente in ARF 2.7.3; specifico di IT-Wallet.
 
-    **Attestato Elettronico di Dati di Identificazione Personale**
-      Attestato Elettronico che consente di autenticare il soggetto a cui si riferiscono i Dati Personali Identificativi.
-      Conforme con ARF 2.7.3.
+    **IT-Wallet ID**
+    **Attestato Elettronico di Dati di Identificazione Personale di ambito nazionale**
+      Attestato Elettronico di Attributi (EAA) che contiene dati di identificazione di una persona fisica ed è rilasciato **esclusivamente per usi nazionali**. I termini **IT-Wallet ID** e **Attestato Elettronico di Dati di Identificazione Personale di ambito nazionale** indicano il medesimo EAA nazionale. La qualificazione «di ambito nazionale» distingue questo EAA dai **Dati di Identificazione Personale (PID)** EUDI, che sono un insieme di dati ai sensi del quadro europeo di Identità Digitale e **non** costituiscono un EAA. Consente l'autenticazione e l'identificazione dell'Utente nei confronti delle Relying Party che operano nell'ambito della giurisdizione nazionale. NON DEVE essere utilizzato per interazioni cross-border e **non** costituisce un PID ai sensi di `EU_2024_1183`_ / `EU_2024/2977`_. NON DEVE essere confuso con il **PID** EUDI, né con un **Gestore di Identità Digitale** / schema di eID nazionale (ad esempio CieID / SPID) utilizzato solo per l'autenticazione. Il termine **EID Nazionale** NON DEVE essere usato come sinonimo di IT-Wallet ID, per evitare confusione con tali schemi. Gli identificatori tecnici (``vct`` e ``credential_type``) sono definiti nella sezione :ref:`credential-data-model-it-wallet-id:Modello di Dati dell'IT-Wallet ID`. Non presente in ARF 2.7.3; specifico di IT-Wallet.
 
     **Fornitore di Attestati Elettronici di Attributi Qualificati**
     **QEAA Provider**
@@ -345,8 +356,13 @@ Di seguito le descrizioni di acronimi e definizioni, correlati al presente docum
       Conforme con ARF 2.7.3.
 
     **Wallet Secure Cryptographic Device**
-      Dispositivo antimanomissione che fornisce un ambiente in cui la WSCA può proteggere gli asset critici.
-      Conforme con ARF 2.7.3.
+      Dispositivo antimanomissione che fornisce un ambiente in cui la WSCA può proteggere gli asset critici. In questa specifica il termine **WSCD** è riservato a un dispositivo crittografico certificabile come resistente ad attaccanti con potenziale di attacco elevato (ad esempio un HSM o una smart card certificata almeno Common Criteria EAL4+ AVA_VAN.5).
+      Allineato all'ARF; la restrizione certificabile High è specifica di questo profilo implementativo.
+
+    **Keystore**
+    **Keystore hardware-backed interno locale**
+      Memorizzazione delle chiavi hardware-backed nativa del dispositivo dell'Utente, ad esempio il Trusted Execution Environment (TEE) e StrongBox su Android o il Secure Enclave su iOS. Un Keystore **non** è un WSCD nel senso certificabile High. Il profilo implementativo attuale memorizza le chiavi dell'Utente dell'Istanza del Wallet, dell'IT-Wallet ID e delle (Q)EAA in un Keystore.
+      Non usato come termine definito in ARF 2.7.3 con questa restrizione; specifico di questo profilo implementativo.
 
     **Soluzione Wallet**
       Insieme di Soluzioni Tecniche al fine di garantire il corretto funzionamento delle Istanze del Wallet.
@@ -358,13 +374,17 @@ Di seguito le descrizioni di acronimi e definizioni, correlati al presente docum
       Conforme con ARF 2.7.3.
 
     **Key Attestation**
-      Oggetto di dati emesso da un Wallet Provider che dimostra che le chiavi utilizzate per il key binding delle credenziali risiedono in un WSCD affidabile, utilizzando le API di Key Attestation (OEM).
-      Allineato alla Technical Specification 3.
+    **KA**
+      Oggetto di dati emesso da un Wallet Provider che dimostra che le chiavi utilizzate per il key binding delle credenziali risiedono in un WSCD o in un Keystore affidabile, utilizzando le API di Key Attestation (OEM). Le chiavi private vincolate a una Key Attestation DEVONO essere memorizzate nello stesso Keystore o WSCD delle chiavi degli Attestati Elettronici che la Key Attestation attesta.
 
     **Wallet Instance Attestation**
-    **Wallet Attestation**
-      Oggetto emesso da un Fornitore di Wallet che attesta l'integrità dell'Istanza del Wallet.
+    **WIA**
+      Oggetto emesso da un Fornitore di Wallet che attesta l'integrità dell'Istanza del Wallet. Questa specifica usa **Wallet Instance Attestation (WIA)**. Il nome legacy «Wallet Attestation» NON DEVE essere usato per questo artefatto.
       Specifico per l'IT-Wallet.
+
+    **Wallet Unit Attestation**
+    **WUA**
+      Attestazioni che una Wallet Unit usa durante l'emissione di un PID o di un'attestazione. Una Wallet Unit Attestation comprende due tipi: le Wallet Instance Attestation (WIA), che attestano l'integrità dell'Istanza del Wallet, e le Key Attestation (KA), che attestano la sicurezza delle chiavi crittografiche memorizzate nella Wallet Unit.
 
     **Catalogo degli Attestati Elettronici**
       Catalogo elettronico contenente informazioni relative ai formati e agli schemi degli Attestati Elettronici, ai dati in essi contenuti e alle Fonti Autentiche. Il Catalogo contiene informazioni aggiuntive che consentono di stabilire l'autenticità e l'affidabilità delle informazioni in esso contenute.
@@ -481,7 +501,7 @@ Di seguito gli acronimi usati più di frequente nel documento:
   * - **PDND**
     - Piattaforma Digitale Nazionale Dati
   * - **PID**
-    - Person Identification Data (Attestato Elettronico di Dati di Identificazione Personale)
+    - Person Identification Data (Dati di Identificazione Personale)
   * - **PII**
     - Personally Identifiable Information (Informazioni di Identificazione Personale)
   * - **QEAA**
@@ -494,6 +514,12 @@ Di seguito gli acronimi usati più di frequente nel documento:
     - Verifiable Credential
   * - **VP**
     - Verifiable Presentation
+  * - **WIA**
+    - Wallet Instance Attestation (Attestato dell'Istanza del Wallet)
+  * - **WUA**
+    - Wallet Unit Attestation
+  * - **KA**
+    - Key Attestation
   * - **WSCA**
     - Wallet Secure Cryptographic Application (Applicazione Crittografica Sicura per il Wallet)
   * - **WSCD**
